@@ -8,7 +8,7 @@ oc apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/
 oc -n argocd patch deployment argocd-server -p '{"spec":{"template":{"spec":{"$setElementOrder/containers":[{"name":"argocd-server"}],"containers":[{"command":["argocd-server","--insecure","--staticassets","/shared/app"],"name":"argocd-server"}]}}}}'
 oc -n argocd create route edge argocd-server --service=argocd-server --port=http --insecure-policy=Redirect
 
-oc patch deployment argocd-dex-server  -p '{"spec": {"template": {"spec": {"containers": [{"name": "dex","image": "quay.io/redhat-cop/dex:v2.22.0-openshift"}]}}}}'
+#oc patch deployment argocd-dex-server  -p '{"spec": {"template": {"spec": {"containers": [{"name": "dex","image": "quay.io/redhat-cop/dex:v2.22.0-openshift"}]}}}}'
 ```
 
 # Download ArgoCD CLI
