@@ -4,7 +4,10 @@ Testing new features on OCP4
 # Install ArgoCD
 ```
 oc new-project argocd
+#The below step can be done installing the operator instead
 oc apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+oc adm policy add-cluster-role-to-user cluster-admin -z argocd-application-controller -n argocd
 oc -n argocd patch deployment argocd-server -p '{"spec":{"template":{"spec":{"$setElementOrder/containers":[{"name":"argocd-server"}],"containers":[{"command":["argocd-server","--insecure","--staticassets","/shared/app"],"name":"argocd-server"}]}}}}'
 oc -n argocd create route edge argocd-server --service=argocd-server --port=http --insecure-policy=Redirect
 
