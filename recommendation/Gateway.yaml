@@ -1,3 +1,6 @@
+### The route can be called in a loop to further testing
+# while true; do curl http://<route>; sleep .2; done
+
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
