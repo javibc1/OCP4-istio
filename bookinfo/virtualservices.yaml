@@ -6,8 +6,8 @@ spec:
   hosts:
   - reviews
   http:
-  - match:
   ### Uncomment for sending Safari users to another version
+  # - match:
     # - headers:
     #     baggage-user-agent:
     #       regex: .*Safari.*
