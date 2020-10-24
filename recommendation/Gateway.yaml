@@ -75,7 +75,6 @@ spec:
         host: recommendation
         subset: version-v1
       weight: 75
-  - route:
     - destination:
         host: recommendation
         subset: version-v2
