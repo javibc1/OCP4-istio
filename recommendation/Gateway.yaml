@@ -74,12 +74,12 @@ spec:
     - destination:
         host: recommendation
         subset: version-v1
-      weight: 100
-  # - route:
-  #   - destination:
-  #       host: recommendation
-  #       subset: version-v2
-  #     weight: 25
+      weight: 75
+  - route:
+    - destination:
+        host: recommendation
+        subset: version-v2
+      weight: 25
     # mirror:
     #   host: recommendation
     #   subset: version-v2
