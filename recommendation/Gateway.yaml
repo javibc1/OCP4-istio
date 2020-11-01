@@ -125,12 +125,12 @@ spec:
     - destination:
         host: recommendation
   ### For terminating connection after 1s  
-    # timeout: 1.000s
+    timeout: 1.000s
   ###
   ### For retrying after 3s timeout, up until 3 times
-    retries:
-      attempts: 3
-      perTryTimeout: 2s
+    # retries:
+    #   attempts: 3
+    #   perTryTimeout: 2s
   ###
 ##
 ---
