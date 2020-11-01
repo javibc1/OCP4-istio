@@ -71,12 +71,12 @@ spec:
     - destination:
         host: recommendation
         subset: version-v1
-      weight: 50
+      weight: 25
   ## To divide traffic between different versions
     - destination:
         host: recommendation
         subset: version-v2
-      weight: 50
+      weight: 75
   ###
   ### To send mirror traffic to another version
     # mirror:
