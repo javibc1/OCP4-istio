@@ -43,9 +43,11 @@ metadata:
   name: recommendation
 spec:
   host: recommendation
+### To change loadbalancing algorithm
   # trafficPolicy:
   #   loadBalancer:
   #     simple: RANDOM
+###
   subsets:
   - labels:
       version: v1
@@ -53,6 +55,9 @@ spec:
   - labels:
       version: v2
     name: version-v2
+  - labels:
+      app: recommendation
+    name: app-recommendation
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -62,24 +67,70 @@ spec:
   hosts:
   - recommendation
   http:
-  - match:
-    - headers:
-        baggage-user-agent:
-          regex: .*Safari.*
-    route:
-    - destination:
-        host: recommendation
-        subset: version-v2
   - route:
     - destination:
         host: recommendation
         subset: version-v1
-      weight: 75
-    - destination:
-        host: recommendation
-        subset: version-v2
-      weight: 25
+      weight: 100
+  ### To divide traffic between different versions
+    # - destination:
+    #     host: recommendation
+    #     subset: version-v2
+    #   weight: 25
+  ###
+  ### To send mirror traffic to another version
     # mirror:
     #   host: recommendation
     #   subset: version-v2
+  ###
+---
+### VirtualService that introduces Fault-injection and Delay
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: recommendation
+# spec:
+#   hosts:
+#   - recommendation
+#   http:
+#   - fault:
+#     ### Introduces 7s delay in 50% of calls, call with "while true; do time curl http://<route>; sleep .5; done"
+#       # delay:
+#       #   fixedDelay: 7.000s
+#       #   percent: 50
+#     ###
+#     ### Makes 50% of calls return a 503
+#       abort:
+#         httpStatus: 503
+#         percent: 50
+#     ###
+#     route:
+#     - destination:
+#         host: recommendation
+#         subset: app-recommendation
+###
+---
+### VirtualService for trying retries and timeout, use the following commands to misbehave
+### oc exec -it $(oc get pods|grep recommendation-v2|awk '{ print $1 }'|head -1) -c recommendation /bin/bash "curl localhost:8080/misbehave"
+
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: recommendation
+# spec:
+#   hosts:
+#   - recommendation
+#   http:
+#   - route:
+#     - destination:
+#         host: recommendation
+#   ### For terminating connection after 1s  
+#     # timeout: 1.000s
+#   ###
+#   ### For retrying after 3s timeout, up until 3 times
+#     retries:
+#       attempts: 3
+#       perTryTimeout: 2s
+#   ###
+###
 ---
