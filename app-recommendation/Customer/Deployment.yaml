@@ -24,7 +24,8 @@ spec:
         - name: JAVA_OPTIONS
           value: -Xms15m -Xmx15m -Xmn15m
         name: customer
-        image: quay.io/rhdevelopers/istio-tutorial-customer:v1.1
+        #image: quay.io/rhdevelopers/istio-tutorial-customer:v1.1
+        image: quay.io/rhdevelopers/istio-tutorial-customer:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8080
@@ -43,21 +44,21 @@ spec:
           limits:
             memory: "40Mi"
             cpu: "500m" 
-        livenessProbe:
-          exec:
-            command:
-            - curl
-            - localhost:8080/health/live
-          initialDelaySeconds: 5
-          periodSeconds: 4
-          timeoutSeconds: 1
-        readinessProbe:
-          exec:
-            command:
-            - curl
-            - localhost:8080/health/ready
-          initialDelaySeconds: 6
-          periodSeconds: 5
-          timeoutSeconds: 1
+        # livenessProbe:
+        #   exec:
+        #     command:
+        #     - curl
+        #     - localhost:8080/health/live
+        #   initialDelaySeconds: 5
+        #   periodSeconds: 4
+        #   timeoutSeconds: 1
+        # readinessProbe:
+        #   exec:
+        #     command:
+        #     - curl
+        #     - localhost:8080/health/ready
+        #   initialDelaySeconds: 6
+        #   periodSeconds: 5
+        #   timeoutSeconds: 1
         securityContext:
           privileged: false
