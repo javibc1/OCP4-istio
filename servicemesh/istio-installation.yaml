@@ -52,3 +52,30 @@ spec:
       enabled: true
       jaeger:
         template: all-in-one
+
+### Another example
+# apiVersion: maistra.io/v2
+# kind: ServiceMeshControlPlane
+# metadata:
+#   name: basic
+#   namespace: istio-system
+# spec:
+#   version: v1.1
+#   tracing:
+#     type: Jaeger
+#     sampling: 10000
+#   policy:
+#     type: Mixer
+#   telemetry:
+#     type: Mixer
+#   addons:
+#     jaeger:
+#       install:
+#         storage:
+#           type: Memory
+#     prometheus:
+#       enabled: true
+#     kiali:
+#       enabled: true
+#     grafana:
+#       enabled: true

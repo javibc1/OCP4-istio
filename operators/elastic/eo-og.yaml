@@ -3,6 +3,4 @@ kind: OperatorGroup
 metadata:
   name: openshift-operators-redhat
   namespace: openshift-operators-redhat 
-  annotations:
-    argocd.argoproj.io/sync-wave: "-1"
 spec: {}
