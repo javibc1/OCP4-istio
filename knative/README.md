@@ -44,12 +44,6 @@ kn service create cpu-php \
   --image quay.io/f_bernal_cerpa/php-load:latest
 kn service update cpu-php \
   --annotation autoscaling.knative.dev/target=50 
-kn service update cpu-php \
-  --annotation autoscaling.knative.dev/minScale- \
-  --annotation autoscaling.knative.dev/maxScale=10 \
-  --annotation autoscaling.knative.dev/target=50 \
-  --annotation autoscaling.knative.dev/metric=cpu \
-  --annotation autoscaling.knative.dev/class=hpa.autoscaling.knative.dev
 
 ab -n 2550 -c 850 -t 60 "http://cpu-php-serverless-tutorial.apps.cluster-addd.addd.example.opentlc.com/" && oc get deployment -n serverless-tutorial
 ```
@@ -66,13 +60,3 @@ oc -n knative-serving describe cm config-autoscaler
 ```
 To change the stable-window and scale-to-zero-grace-period: `oc -n knative-serving describe cm config-autoscaler` 
 
-https://katacoda.com/openshift/assets/developing-on-openshift/serverless/05-scaling/serving-flow.png
-
-
-## HPA
-Para desplegar cpu-hpa ejecutar:
-```
-oc new-project testhpa
-oc apply -f ./cpu-hpa
-oc autoscale deployment cpu-php --cpu-percent=50 --min=1 --max=10
-```

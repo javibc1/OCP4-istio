@@ -56,12 +56,6 @@ kn service create cpu-php \
   --image quay.io/f_bernal_cerpa/php-load:latest
 kn service update cpu-php \
   --annotation autoscaling.knative.dev/target=50 
-kn service update cpu-php \
-  --annotation autoscaling.knative.dev/minScale- \
-  --annotation autoscaling.knative.dev/maxScale=10 \
-  --annotation autoscaling.knative.dev/target=50 \
-  --annotation autoscaling.knative.dev/metric=cpu \
-  --annotation autoscaling.knative.dev/class=hpa.autoscaling.knative.dev
 
 ab -n 2550 -c 850 -t 60 "http://cpu-php-serverless-tutorial.apps.cluster-addd.addd.example.opentlc.com/" && oc get deployment -n serverless-tutorial
 ```
