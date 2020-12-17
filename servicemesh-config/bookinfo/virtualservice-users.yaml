@@ -25,10 +25,10 @@
 #     - destination:
 #         host: reviews
 #         subset: v3
-#   # guillermo 7s delay
+#   # guillermo 3s delay
 #   - fault:
 #       delay:
-#         fixedDelay: 7s
+#         fixedDelay: 3s
 #         percentage:
 #           value: 100
 #     match:
