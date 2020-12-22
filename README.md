@@ -10,7 +10,7 @@ To install the applications:
 To apply different Istio configurations for each application, apply the Gateway and Destination Rules for each project and apply the VirtualService you want to test
 
 # Knative
-First install Knative operator and generate a knative-serving default instance and check the available resources `oc api-resources --api-group serving.knative.dev` 
+First install Knative operator and generate a knative-serving default instance in knative-serving namespace and check the available resources `oc api-resources --api-group serving.knative.dev` 
 
 ## Create resources (no yaml required)
 ```
@@ -71,3 +71,9 @@ kn service delete greeter
 oc -n knative-serving describe cm config-autoscaler
 ```
 To change the stable-window and scale-to-zero-grace-period: `oc -n knative-serving describe cm config-autoscaler` 
+
+# VPA
+For testing the VPA, first install the VerticalPodAutoscaler Operator, then you can apply the vpa/vpa-cr.yaml that should refer to the application we want the VPA to control. We can deploy a simple httpd from samples in developer console. We can get the VPA recommendation running the command `oc get vpa vpa-recommender --output yaml`.
+
+# HPA
+To test the Horizontal Pod Autoscaler using memory metrics, we have to deploy a DeploymentConfig (we can do it using the Developer Console, using the image quay.io/f_bernal_cerpa/memory-php:latest). After the deployment is created, we can deploy in the same namespace that the application the vpa/vpa-cr.yaml `oc apply -f vpa/vpa-cr.yaml` and after a couple of minutes the HPA should be registering memory metrics `oc get hpa`. 
