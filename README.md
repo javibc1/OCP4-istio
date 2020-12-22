@@ -77,3 +77,6 @@ For testing the VPA, first install the VerticalPodAutoscaler Operator, then you 
 
 # HPA
 To test the Horizontal Pod Autoscaler using memory metrics, first make sure to create the mem-hpa/limits.yaml. Then we have to deploy a DeploymentConfig (we can do it using the Developer Console, using the image quay.io/f_bernal_cerpa/memory-php:latest, make sure that you select 8080 as TargetPort). After the deployment is created, we can deploy in the same namespace that the application the mem-hpa/mem-hpa.yaml `oc apply -f mem-hpa/mem-hpa.yaml` and after a couple of minutes the HPA should be registering memory metrics `oc get hpa`. 
+
+# Automate Volume Expander
+First install the Automate Volume Expander Operator in the console, then create the pvc and deploy in volume-expander. Inside the terminal download files into the /data folder, where pvc is configured. For example `wget https://www.managementsolutions.com/sites/default/files/publicaciones/eng/machine-learning.pdf` and then copy the file multiple times to reach the storage limit configured. After a couple of minutes the pvc would expand and the pod would restart with the new storage capacity but maintaining the previous files.
