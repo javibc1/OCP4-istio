@@ -73,7 +73,9 @@ oc -n knative-serving describe cm config-autoscaler
 To change the stable-window and scale-to-zero-grace-period: `oc -n knative-serving describe cm config-autoscaler` 
 
 # Kustomize
-We can test kustomize by `kubectl apply -k ./kustomize/environments/dev/` in DEV namespace and by `kubectl apply -k ./kustomize/environments/pro/` in PRO namespace, we can see 2 replicas in DEV and 4 replicas in PRO. In PRO we also passed an environment variable to change the message we get.
+We can test kustomize by `kubectl apply -k ./kustomize/environments/dev/` in DEV namespace and `kubectl apply -k ./kustomize/environments/pro/` in PRO namespace, we can see 2 replicas in DEV and 4 replicas in PRO. In PRO we also passed an environment variable to change the message we get. Aditionally, we can uncomment the images block in ./kustomize/environments/dev/kustomization.yaml and change also the image and tag being used by the deployment.
+
+We can also get the definition of the modified yaml `kubectl kustomize kustomize/environments/dev/` or using the kustomize CLI `kustomize build kustomize/environments/dev/`
 
 # VPA
 For testing the VPA, first install the VerticalPodAutoscaler Operator, then you can apply the vpa/vpa-cr.yaml `oc apply -f vpa/vpa-cr.yaml` that should refer to the application we want the VPA to control. We can deploy a simple httpd from samples in developer console. We can get the VPA recommendation running the command `oc get vpa vpa-recommender --output yaml`.
