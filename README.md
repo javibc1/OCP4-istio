@@ -1,5 +1,5 @@
 # ServiceMesh
-First install Service Mesh (operators configured for OCP 4.6) `oc apply -Rf ./install-operators` and check that operators are installed, pods in running state in projects openshift-operators and openshift-operators-redhat `oc get pods -n openshift-operators && oc get pods -n openshift-operators-redhat`
+First move into ServiceMesh directory `cd servicemesh` and install Service Mesh (operators configured for OCP 4.6) `oc apply -Rf ./install-operators` and check that operators are installed, pods in running state in projects openshift-operators and openshift-operators-redhat `oc get pods -n openshift-operators && oc get pods -n openshift-operators-redhat`
 
 Next step is to install a istio-cluster `oc apply -f ./install-servicemesh` and wait a bit for all pods to deploy `oc get smcp -n istio-system`. Once pods are running you can deploy bookinfo or recommendation apps by the following commands:
 
@@ -57,7 +57,7 @@ kn service create cpu-php \
 kn service update cpu-php \
   --annotation autoscaling.knative.dev/target=50 
 
-ab -n 2550 -c 850 -t 60 "http://cpu-php-serverless-tutorial.apps.cluster-addd.addd.example.opentlc.com/" && oc get deployment -n serverless-tutorial
+ab -n 2550 -c 850 -t 60 "http://cpu-php-serverless-tutorial.apps.cluster-34d8.34d8.example.opentlc.com/" && oc get deployment -n serverless-tutorial
 ```
 
 ## Utils
@@ -73,7 +73,7 @@ oc -n knative-serving describe cm config-autoscaler
 To change the stable-window and scale-to-zero-grace-period: `oc -n knative-serving describe cm config-autoscaler` 
 
 # VPA
-For testing the VPA, first install the VerticalPodAutoscaler Operator, then you can apply the vpa/vpa-cr.yamlv `oc apply -f vpa/vpa-cr.yaml` that should refer to the application we want the VPA to control. We can deploy a simple httpd from samples in developer console. We can get the VPA recommendation running the command `oc get vpa vpa-recommender --output yaml`.
+For testing the VPA, first install the VerticalPodAutoscaler Operator, then you can apply the vpa/vpa-cr.yaml `oc apply -f vpa/vpa-cr.yaml` that should refer to the application we want the VPA to control. We can deploy a simple httpd from samples in developer console. We can get the VPA recommendation running the command `oc get vpa vpa-recommender --output yaml`.
 
 # HPA
 To test the Horizontal Pod Autoscaler using memory metrics, first make sure to create the mem-hpa/limits.yaml. Then we have to deploy a DeploymentConfig (we can do it using the Developer Console, using the image quay.io/f_bernal_cerpa/memory-php:latest, make sure that you select 8080 as TargetPort). After the deployment is created, we can deploy in the same namespace that the application the mem-hpa/mem-hpa.yaml `oc apply -f mem-hpa/mem-hpa.yaml` and after a couple of minutes the HPA should be registering memory metrics `oc get hpa`. 
