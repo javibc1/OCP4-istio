@@ -1,8 +1,7 @@
 apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
-  annotations:
-    openshift.io/generated-by: OpenShiftWebConsole
+  name: memory-php
   labels:
     app: memory-php
     app.kubernetes.io/component: memory-php
@@ -26,15 +25,12 @@ spec:
     type: Rolling
   template:
     metadata:
-      annotations:
-        openshift.io/generated-by: OpenShiftWebConsole
-      creationTimestamp: null
       labels:
         app: memory-php
         deploymentconfig: memory-php
     spec:
       containers:
-      - image: quay.io/f_bernal_cerpa/memory-php@sha256:154674d515031b2fb571f26c8ff6be7d4cc2f135e2eea91339f55a5a4d637f95
+      - image: quay.io/f_bernal_cerpa/memory-php:latest
         imagePullPolicy: IfNotPresent
         name: memory-php
         ports:
@@ -51,15 +47,3 @@ spec:
       securityContext: {}
       terminationGracePeriodSeconds: 30
   test: false
-  triggers:
-  - imageChangeParams:
-      automatic: true
-      containerNames:
-      - memory-php
-      from:
-        kind: ImageStreamTag
-        name: memory-php:v1
-        namespace: memhpa
-      lastTriggeredImage: quay.io/f_bernal_cerpa/memory-php@sha256:154674d515031b2fb571f26c8ff6be7d4cc2f135e2eea91339f55a5a4d637f95
-    type: ImageChange
-  - type: ConfigChange
