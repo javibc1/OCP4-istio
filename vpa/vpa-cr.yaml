@@ -6,6 +6,6 @@ spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: httpd-sample 
+    name: memory-php
   updatePolicy:
     updateMode: "Auto" 
