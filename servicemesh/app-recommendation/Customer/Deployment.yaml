@@ -37,13 +37,13 @@ spec:
         - containerPort: 9779
           name: prometheus
           protocol: TCP
-        resources:
-          requests: 
-            memory: "20Mi" 
-            cpu: "200m" # 1/5 core
-          limits:
-            memory: "40Mi"
-            cpu: "500m" 
+        # resources:
+        #   requests: 
+        #    memory: "20Mi" 
+        #     cpu: "200m" # 1/5 core
+        #   limits:
+        #     memory: "40Mi"
+        #     cpu: "500m" 
         # livenessProbe:
         #   exec:
         #     command:
